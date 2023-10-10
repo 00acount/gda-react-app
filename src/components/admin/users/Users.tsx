@@ -10,7 +10,6 @@ import UpdateUser from "./UpdateUser";
 import { API_URL } from "../../../utilities/backend-api";
 import { useAuth } from "../../../utilities/Auth";
 import { getCookie } from "../../../utilities/getCookie";
-import { Role } from "../../../utilities/roles";
 
 export default function Users() {
     const [dataFetched, setDataFetched] = useState(false);
