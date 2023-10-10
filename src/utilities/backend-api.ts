@@ -1,2 +1,1 @@
-import 'dotenv/config'
-export const API_URL='http://localhost:8080/api/v1'
+export const API_URL=`${import.meta.env.API_HOST}/api/v1`
