@@ -12,7 +12,7 @@ export const useAuth = () => useContext(authenticatedUserContext);
 
 
 export const getAuthenticatedUser = async () => {
-    const response = await fetch(`${API_URL}/api/v1/whos-authenticated`, {
+    const response = await fetch(`${API_URL}/whos-authenticated`, {
             method: 'GET',
             credentials: "include",
         })
