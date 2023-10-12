@@ -1,0 +1,129 @@
+.container {
+    width: 100%;
+    position: relative;
+
+    .select {
+        border-radius: 7px;
+        background-color: white;
+        border: 1px solid rgb(139, 136, 136);
+        width: 100%;
+        height: 55px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    
+
+    
+    .options {
+        box-shadow: 5px 5px 10px #0000003d;
+        height: 150px;
+        overflow-y: scroll;
+        position: absolute;
+        width: 100%;
+        background-color: #fcfcfc;
+        margin-top: 7px;
+        padding: 15px;
+        border: 1px solid rgb(139, 136, 136);
+        border-radius: 7px;
+        display: none;
+        z-index: 2;
+    
+    
+        &::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background-color: #eee;
+            border-radius: 6px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border-radius: 6px;
+            background-color:  $main-color; 
+        }
+
+
+
+
+        .checkboxContainer {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+
+        .checkboxContainer input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: #eee;
+        }
+
+
+        .checkboxContainer:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+
+
+        .checkboxContainer input:checked ~ .checkmark {
+            background-color: $main-color;
+        }
+
+        /* Create the checkmark/indicator (hidden when not checked) */
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        /* Show the checkmark when checked */
+        .checkboxContainer input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Style the checkmark/indicator */
+        .checkboxContainer .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        
+        .label {
+            padding: 37px;
+        }
+    }
+    
+    .show {
+        display: block;
+    }
+}

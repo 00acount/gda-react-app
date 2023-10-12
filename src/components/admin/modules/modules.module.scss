@@ -1,0 +1,113 @@
+.container {
+    float: left;
+    width: calc(100% - 300px);
+
+    section {
+        width: 100%;
+        .heading {
+            text-align: center;
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 12px;
+
+            span {
+                display: inline-block;
+                margin: 20px 0;
+                font-size: 1.7rem;
+                font-weight: 700;
+            }
+        
+            .addBtn {
+                cursor: pointer;
+                border: none;
+                display: inline-block;
+                margin-left: 12px;
+                font-size: 1.5rem;
+                color: white;
+                background-color: $main-color;
+                line-height: 50px;
+                border-radius: 10px; 
+                width: 45px;
+                height: 45px;
+                transform: rotate(45deg);
+            
+                .addBtnIcon {
+                    transform: rotate(45deg);
+                }
+            }
+
+        }
+    }
+
+    .wrapper {
+        overflow-y: auto;
+        height: calc(100vh - 183px);
+
+        .table {
+            margin: 0 auto;
+            width: 80%;
+            border-collapse: collapse;
+            
+            .tableHead {
+                position: sticky;
+                top: 0;
+            }
+
+            td, th {
+                font-size: 1.1rem;
+                padding: 12px;
+                border: 3px solid white;
+                background-color: #e9e9e9;
+                text-align: center;
+            
+                button {
+                    cursor: pointer;
+                    display: inline-block;
+                    color: white;
+                    font-size: 1.2rem;
+                    line-height: 45px;
+                    width: 45px;
+                    height: 45px;
+                    border: none;
+                }
+                    
+                &:first-of-type button {
+                    border-radius: 50% 0 0 50%;
+                    background-image: linear-gradient(90deg, #2ECC71, #2ECC71, #e9e9e9);
+                }
+                    
+                &:last-of-type button {
+                    border-radius: 0 50% 50% 0;
+                    background-image: linear-gradient(90deg, #e9e9e9, rgb(226, 78, 78), rgb(226, 78, 78));
+                }    
+            
+                &:first-of-type, &:last-of-type {
+                    background: white;
+                    width: 50px;
+                    padding: 0;
+                }
+            }
+
+            th {
+                background-color: $main-color;
+                color: white;
+                border-top: none;
+            }
+            
+            td {
+                font-style: italic;
+            }
+        }
+
+        &::-webkit-scrollbar {
+            width: 15px;
+            background-color: #e9e9e9;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: $main-color;
+        }
+    }
+}
