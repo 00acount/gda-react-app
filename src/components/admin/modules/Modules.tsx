@@ -9,6 +9,7 @@ import UpdateModule from './UpdateModule';
 import { API_URL } from '../../../utilities/backend-api';
 import { useAuth } from '../../../utilities/Auth';
 import { getToken } from '../../../utilities/authToken';
+import { ModuleWrapperLoader } from './ModuleLoader';
 
 export default function Modules() {
     const [dataFetched, setDataFetched] = useState(false)
@@ -65,6 +66,8 @@ export default function Modules() {
                         <span>The list of modules</span>
                         <button onClick={() => setAddBtn(true)} className={style.addBtn}><FontAwesomeIcon className={style.addBtnIcon} icon={faPlus} /></button>
                     </div>
+                    {!dataFetched && <ModuleWrapperLoader />}
+                    {dataFetched && 
                     <div className={style.wrapper}>
                         <table className={style.table}>
                             <thead>
@@ -76,7 +79,6 @@ export default function Modules() {
                                     <th></th>
                                 </tr>
                             </thead>
-                            {dataFetched && 
                             <tbody>
                                 {modulesList.map((module, index) => 
                                     <tr key={index}>
@@ -98,9 +100,9 @@ export default function Modules() {
                                     </tr>    
                                 )}
                             </tbody>
-                            }
                         </table>
                     </div>
+                    }
                 </section>
             {addBtn && <AddModule setAddBtn={setAddBtn} setModulesList={setModulesList} />}
             {updateBtn && <UpdateModule setUpdateBtn={setUpdateBtn} setModulesList={setModulesList} selectedModule={selectedModule!} />}

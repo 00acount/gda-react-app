@@ -64,7 +64,6 @@
         }
     
         table {
-            background-color: rgb(224, 115, 115);
             width: 100%;
             border-collapse: collapse;
 
@@ -74,12 +73,37 @@
                 border: 3px solid white;
             }
             th {
+                background-color: rgb(224, 115, 115);
                 color: white;
             }
 
             td {
                 background-color: #f1f1f1;
             }
+        }
+    }
+}
+
+
+// loader style
+.container {
+    section {
+        .overviewContentSekeleton {
+            @include loadingStyle();
+
+            .outerBox {
+                background-color: inherit;
+                box-shadow: none;
+            }
+        }
+    
+        .latestUsersSekeleton {
+                border-collapse: collapse;
+                
+                th, td {
+                    @include loadingStyle();
+                    height: 44px;
+                }
         }
     }
 }

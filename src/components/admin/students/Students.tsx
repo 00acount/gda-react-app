@@ -10,12 +10,14 @@ import { API_URL } from '../../../utilities/backend-api'
 import { useAuth } from '../../../utilities/Auth'
 import { getToken } from '../../../utilities/authToken'
 import { LoggedIn } from '../../common/context-provider'
+import { StudentWrapperLoader } from './StudentLoader'
 
 export default function Students() {
     const [updateBtn, setUpdateBtn] = useState(false);
     const [addBtn, setAddBtn] = useState(false);
     const [selectedStudent, setSelectedStudent] = useState<Student>();
     const [studentsList, setStudentsList] = useState<Student []>([]);
+    const [dataFetched, setDataFetched] = useState(false);
     const { updateLoggedIn } = useAuth();
     
     useEffect(() => {
@@ -31,6 +33,7 @@ export default function Students() {
             if (response.ok) {
                 const studentsList = await response.json()
                 setStudentsList(studentsList);
+                setDataFetched(true)
             }
             
             else if (response.status === 403)
@@ -68,6 +71,8 @@ export default function Students() {
                         <span>The list of students</span>
                         <button className={style.addBtn} onClick={() => {setAddBtn(true)}}><FontAwesomeIcon className={style.addBtnIcon} icon={faPlus} /></button>
                     </div>
+                    {!dataFetched && <StudentWrapperLoader />}
+                    {dataFetched &&  
                     <div className={style.wrapper}>
                         <table className={style.table}>
                             <thead>
@@ -96,6 +101,7 @@ export default function Students() {
                             </tbody>
                         </table>
                     </div>
+                    }
                     {updateBtn && <UpdateStudent setUpdateBtn={setUpdateBtn} setStudentsList={setStudentsList} selectedStudent={selectedStudent!} />}
                     {addBtn && <AddStudent setAddBtn={setAddBtn} setStudentsList={setStudentsList} />}
                 </section>

@@ -7,6 +7,7 @@ import { API_URL } from '../../../utilities/backend-api'
 import { useAuth } from '../../../utilities/Auth'
 import { getToken } from '../../../utilities/authToken'
 import { LoggedIn } from '../../common/context-provider'
+import { LatestUsersLoader, OverviewLoader } from './DashboardLoader'
 
 export default function Dashboard() {
     const [overview, setOverview] = useState<any>();
@@ -42,9 +43,10 @@ export default function Dashboard() {
         <>
             <div className={style.container}>
                 <Header />
-            {dataFetched && 
                 <section>
                     <h2>Overview</h2>
+                    {!dataFetched && <OverviewLoader />}
+                    {dataFetched && 
                     <div className={style.overviewContent}>
                         <span className={style.outerBox}>
                             <span className={style.iconBox}>
@@ -77,7 +79,10 @@ export default function Dashboard() {
                             <span className={style.bubble}>{overview?.numberOfSessions}</span>
                         </span>
                     </div>
+                    }
                     <h2>Latest Users</h2>
+                    {!dataFetched && <LatestUsersLoader />}
+                    {dataFetched &&
                     <table>
                         <thead>
                             <tr>
@@ -96,8 +101,8 @@ export default function Dashboard() {
                             )}
                         </tbody>
                     </table>
+                    }
                 </section>
-            }
             </div>
         </>
     )

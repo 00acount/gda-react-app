@@ -10,6 +10,7 @@ import { useAuth } from '../../../utilities/Auth'
 import { getToken } from '../../../utilities/authToken'
 import { API_URL } from '../../../utilities/backend-api'
 import { LoggedIn } from '../../common/context-provider'
+import { SectorWrapperLoader } from './SectorLoader'
 
 export default function Sectors() {
     const [dataFetched, SetDataFetched] = useState(false);
@@ -69,6 +70,8 @@ export default function Sectors() {
                         <span>The list of sectors</span>
                         <button onClick={() => setAddBtn(true)} className={style.addBtn}><FontAwesomeIcon className={style.addBtnIcon} icon={faPlus} /></button>
                     </div>
+                    {!dataFetched && <SectorWrapperLoader />}
+                    {dataFetched && 
                     <div className={style.wrapper}>
                         <table className={style.table}>
                             <thead>
@@ -79,7 +82,6 @@ export default function Sectors() {
                                     <th></th>
                                 </tr>
                             </thead>
-                            {dataFetched && 
                             <tbody>
                                 {sectorsList.map((sector, index) => 
                                     <tr key={index}>
@@ -90,9 +92,9 @@ export default function Sectors() {
                                     </tr>    
                                 )}
                             </tbody>
-                            }  
                         </table>
                     </div>
+                    }  
                 </section>
             {addBtn && <AddSector setSectorsList={setSectorsList} setAddBtn={setAddBtn} />}
             {updateBtn && <UpdateSector selectedSector={selectedSector} setSectorsList={setSectorsList} setUpdateBtn={setUpdateBtn} />}

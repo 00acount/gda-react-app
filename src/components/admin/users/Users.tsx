@@ -11,6 +11,7 @@ import { API_URL } from "../../../utilities/backend-api";
 import { useAuth } from "../../../utilities/Auth";
 import { getToken } from "../../../utilities/authToken";
 import { LoggedIn } from "../../common/context-provider";
+import { UserWrapperLoader } from "./UserLoader";
 
 export default function Users() {
     const [dataFetched, setDataFetched] = useState(false);
@@ -72,6 +73,8 @@ export default function Users() {
                         <span>The list of users</span>
                         <button className={style.addBtn} onClick={() => {setAddBtn(true)}}><FontAwesomeIcon className={style.addBtnIcon} icon={faPlus} /></button>
                     </div>
+                    {!dataFetched && <UserWrapperLoader />}
+                    {dataFetched &&
                     <div className={style.wrapper}>
                         <table className={style.table}>
                             <thead>
@@ -85,7 +88,6 @@ export default function Users() {
                                     <th></th>
                                 </tr>
                             </thead>
-                            {dataFetched &&
                             <tbody>
                                 {usersList.map((user, index) => 
                                     <tr key={index}>
@@ -107,9 +109,9 @@ export default function Users() {
                                     </tr>    
                                 )}
                             </tbody>
-                            }
                         </table>
                     </div>
+                    }
                 {addBtn && <AddUser setAddBtn={setAddBtn} setUsersList={setUsersList} />}
                 {updateBtn && <UpdateUser setUpdateBtn={setUpdateBtn} setUsersList={setUsersList} selectedUser={selectedUser} />}
                 </section>

@@ -32,7 +32,9 @@ export default function Login() {
             localStorage.setItem('Authorization', token);
             updateLoggedIn(LoggedIn.TRUE);
         }
-
+    
+        console.log(LoggedIn)
+    
     }
     
     return (

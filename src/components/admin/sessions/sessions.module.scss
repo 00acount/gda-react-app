@@ -83,3 +83,14 @@
         }
     }
 }
+
+
+// loader style 
+.container {
+    .wrapperSkeleton {
+        background-color: #2ECC71;
+        width: 90%;
+        margin: 0 auto;
+        @include loadingStyle();
+    }
+}

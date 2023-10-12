@@ -9,6 +9,7 @@ import { faDownload, faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getToken } from '../../../utilities/authToken';
 import { LoggedIn } from '../../common/context-provider';
+import { SessionWrapperLoader } from './SessionLoader';
 
 export default function Sessions() {
     const [dataFetched, setDataFetched] = useState(false); 
@@ -65,6 +66,8 @@ export default function Sessions() {
                 <div className={style.heading}>
                     <span>The list of Sessions</span>
                 </div>
+                {!dataFetched && <SessionWrapperLoader />}
+                {dataFetched &&
                 <div className={style.wrapper}>
                     <section className={style.section}>
                         <table className={style.table}>
@@ -81,7 +84,6 @@ export default function Sessions() {
                                     </th>
                                 </tr>
                             </thead>
-                            {dataFetched &&
                             <tbody>
                                 {sessionsList.map((session, index) =>
                                     <tr key={index}>
@@ -99,10 +101,10 @@ export default function Sessions() {
                                     </tr>    
                                 )}
                             </tbody>
-                            }
                         </table>
                     </section>
                 </div>
+                }
             </div>
         </>
     )

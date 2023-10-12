@@ -64,6 +64,7 @@
                 text-align: center;
             
                 .button {
+                    cursor: pointer;
                     display: inline-block;
                     color: white;
                     font-size: 1.2rem;
@@ -109,5 +110,15 @@
         &::-webkit-scrollbar-thumb {
             background-color: $main-color;
         }
+    }
+}
+
+
+// loader style
+.container {
+    .wrapperSkeleton {
+        width: 90%;
+        margin: 0 auto;
+        @include loadingStyle();
     }
 }
