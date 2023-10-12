@@ -7,6 +7,7 @@ import { API_URL } from '../../../utilities/backend-api';
 import { getToken } from '../../../utilities/authToken';
 import { useAuth } from '../../../utilities/Auth';
 import { LoggedIn } from '../../common/context-provider';
+import { AbsenceLoader } from './UserSessionLoader';
 
 enum Status {
     PRESENT = 'PRESENT',
@@ -98,6 +99,8 @@ export default function AbsenceList( {setUpdateBtn, selectedSession }: any) {
     return (
         <>
             <div className={style.container}>
+                {!dataFetched && <AbsenceLoader />}
+                {dataFetched && 
                 <div className={style.outerBox}>
                     <div className={style.innerBox}>
                         <div className={style.topSide}>
@@ -143,6 +146,7 @@ export default function AbsenceList( {setUpdateBtn, selectedSession }: any) {
                         </div>
                     </div>
                 </div>
+                }
             </div>
         </>
     )

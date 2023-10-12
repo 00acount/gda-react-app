@@ -158,3 +158,21 @@
         }
     }
 }
+
+
+// loader style
+.container {
+    .wrapperSkeleton {
+        @include loadingStyle();
+    }
+
+    header .heading {
+        .borderSkeleton {
+            @include loadingStyle();
+            border-radius: 50px;
+            width: 380px;
+            height: 60px;
+            margin: 0 auto;
+        }
+    }
+}

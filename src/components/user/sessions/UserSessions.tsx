@@ -11,6 +11,7 @@ import { API_URL } from '../../../utilities/backend-api';
 import { useAuth } from '../../../utilities/Auth';
 import { getToken } from '../../../utilities/authToken';
 import { LoggedIn } from '../../common/context-provider';
+import { SessionHeading, UserSessionLoader } from './UserSessionLoader';
 
 export default function UserSessions() {
     const [dataFetched, setDataFetched] = useState(false);
@@ -84,13 +85,18 @@ export default function UserSessions() {
                 <header>
                     <Header /> 
                     <div className={style.heading}>
+                        {!dataFetched && <SessionHeading />}
+                        {dataFetched && 
                         <span className={style.border}>
                             <span className={style.sessionN}>{sessionsList.length}</span>
                             <span>The list of Sessions</span>
                             <button onClick={() => setAddBtn(true)} className={style.addBtn}><FontAwesomeIcon className={style.addBtnIcon} icon={faPlus} /></button>
                         </span>
+                        }
                     </div>
                 </header>
+                {!dataFetched && <UserSessionLoader />}
+                {dataFetched && 
                 <div className={style.wrapper}>
                     <section className={style.section}>
                         <table className={style.table}>
@@ -105,7 +111,6 @@ export default function UserSessions() {
                                     <th></th>
                                 </tr>
                             </thead>
-                            {dataFetched && 
                             <tbody>
                                 {sessionsList.map((session, index) =>
                                     <tr key={index}>
@@ -119,10 +124,10 @@ export default function UserSessions() {
                                     </tr>    
                                 )}
                             </tbody>
-                            }
                         </table>
                     </section>
                 </div>
+                }
             </div>
             {addBtn && <AddSession setSessionsList={setSessionsList} setAddBtn={setAddBtn} />}
             {updateBtn && <AbsenceList setUpdateBtn={setUpdateBtn} selectedSession={selectedSession} />}

@@ -197,3 +197,14 @@
         transform: rotate(360deg);
     }
 }
+
+
+
+// loader style
+.container {
+    .outerBoxSkeleton {
+        border: none;
+        @include loadingStyle();
+        border-radius: 5px;
+    }
+}
