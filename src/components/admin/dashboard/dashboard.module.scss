@@ -103,6 +103,7 @@
                 th, td {
                     @include loadingStyle();
                     height: 44px;
+                    border-radius: 0px;
                 }
         }
     }
