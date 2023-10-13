@@ -12,6 +12,7 @@ import { useAuth } from '../../../utilities/Auth';
 import { getToken } from '../../../utilities/authToken';
 import { LoggedIn } from '../../common/context-provider';
 import { SessionHeading, UserSessionLoader } from './UserSessionLoader';
+import TopBarProgress from '../../common/topbar-progress/TopBarProgress';
 
 export default function UserSessions() {
     const [dataFetched, setDataFetched] = useState(false);
@@ -19,6 +20,7 @@ export default function UserSessions() {
     const [addBtn, setAddBtn] = useState(false)
     const [updateBtn, setUpdateBtn] = useState(false) 
     const [selectedSession, setSelectedSession] = useState<Session>()
+    const [progress, setProgress] = useState(false);
     const { authenticatedUser, updateLoggedIn } = useAuth();
     
     useEffect(() => {
@@ -43,6 +45,7 @@ export default function UserSessions() {
     },[])
     
     const deleteSession = async (sessionId: number) => {
+        setProgress(true)
 
         const response = await fetch(`${API_URL}/user/users/${authenticatedUser.id}/sessions/${sessionId}`, {
                 method: 'DELETE',
@@ -60,9 +63,11 @@ export default function UserSessions() {
         else if (response.status === 403)
             updateLoggedIn(LoggedIn.FALSE)
             
+        setProgress(false)
     }
 
     const logout = async () => {
+        setProgress(true)
         const response = await fetch(`${API_URL}/logout`, {
             method: 'POST',
             headers: {
@@ -73,10 +78,12 @@ export default function UserSessions() {
         if (response.ok) 
             updateLoggedIn(LoggedIn.FALSE)
 
+        setProgress(false)
     }
 
     return (
         <>
+        {progress && <TopBarProgress />}
         <div className={style.fullContainer}>
             <button className={style.logout} onClick={logout}>
                 <FontAwesomeIcon className={style.icon} icon={faDoorOpen} />

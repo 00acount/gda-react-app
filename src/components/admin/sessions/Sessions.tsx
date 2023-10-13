@@ -10,10 +10,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getToken } from '../../../utilities/authToken';
 import { LoggedIn } from '../../common/context-provider';
 import { SessionWrapperLoader } from './SessionLoader';
+import TopBarProgress from '../../common/topbar-progress/TopBarProgress';
 
 export default function Sessions() {
     const [dataFetched, setDataFetched] = useState(false); 
     const [sessionsList, setSessionsList] = useState<Session []>([]);
+    const [progress, setProgress] = useState(false);
     const { updateLoggedIn } = useAuth();
     
     useEffect(() => {
@@ -37,6 +39,7 @@ export default function Sessions() {
     },[])
     
     const exportPDF = async (session: Session) => {
+        setProgress(true);
         const response = await fetch(`${API_URL}/admin/users/${session.user.id}/sessions/${session.id}/absence/generatePDF`, {
                 method: 'GET',
                 headers: {
@@ -56,11 +59,13 @@ export default function Sessions() {
 
         if (response.status === 403)
             updateLoggedIn(LoggedIn.FALSE)
-
+        
+        setProgress(false);
     }
 
     return (
         <>
+            {progress && <TopBarProgress/>}
             <div className={style.container}>
                 <Header /> 
                 <div className={style.heading}>

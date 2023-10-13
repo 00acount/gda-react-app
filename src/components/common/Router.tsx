@@ -2,7 +2,7 @@ import Sidebar from "../admin/sidebar/Sidebar";
 import Students from "../admin/students/Students";
 import Modules from "../admin/modules/Modules";
 import Sectors from "../admin/sectors/Sectors";
-import Sessions from "../admin/sessions/sessions";
+import Sessions from "../admin/sessions/Sessions";
 import Users from "../admin/users/Users";
 import UserSessions from "../user/sessions/UserSessions";
 import { useAuth } from "../../utilities/Auth";

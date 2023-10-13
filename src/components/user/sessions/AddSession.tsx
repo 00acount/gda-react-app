@@ -9,11 +9,14 @@ import { API_URL } from '../../../utilities/backend-api';
 import { useAuth } from '../../../utilities/Auth';
 import { getToken } from '../../../utilities/authToken';
 import { LoggedIn } from '../../common/context-provider';
+import { AddSessionLoader } from './UserSessionLoader';
+import TopBarProgress from '../../common/topbar-progress/TopBarProgress';
 
 export default function AddSession({setSessionsList, setAddBtn}: any) {
     const [modulesList, setModulesList] = useState<Module []>([]);
     const [sectorsList, setSectorsList] = useState<Sector []>([]);
     const [dataFetched, setDataFetched] = useState(false);
+    const [progress, setProgress] = useState(false);
     const { authenticatedUser, updateLoggedIn } = useAuth();
     const {
         register,
@@ -59,6 +62,7 @@ export default function AddSession({setSessionsList, setAddBtn}: any) {
         const sector = { id: data.sector }
         const sessionInfo = {...data, module, sector}
         
+        setProgress(true);
         const response = await fetch(`${API_URL}/user/users/${authenticatedUser.id}/sessions`, {
                 method: 'POST', 
                 headers: {
@@ -79,12 +83,16 @@ export default function AddSession({setSessionsList, setAddBtn}: any) {
         else if (response.status === 403) {
             updateLoggedIn(LoggedIn.FALSE)
         }
+    
+        setProgress(false);
     }
 
     return (
         <>
-            {dataFetched && 
+            {progress && <TopBarProgress/>}
             <div className={style.container}>
+                {!dataFetched && <AddSessionLoader />}
+                {dataFetched && 
                 <div className={style.boxForm}>
                     <span className={style.closeBtn} onClick={() => setAddBtn(false)}>X</span>
                     <h1>Add Session</h1>
@@ -131,8 +139,8 @@ export default function AddSession({setSessionsList, setAddBtn}: any) {
                         </span>
                     </form>
                 </div>
+                }
             </div>
-        }
         </>
     )
 }

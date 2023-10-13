@@ -12,6 +12,7 @@ import { useAuth } from "../../../utilities/Auth";
 import { getToken } from "../../../utilities/authToken";
 import { LoggedIn } from "../../common/context-provider";
 import { UserWrapperLoader } from "./UserLoader";
+import TopBarProgress from "../../common/topbar-progress/TopBarProgress";
 
 export default function Users() {
     const [dataFetched, setDataFetched] = useState(false);
@@ -20,6 +21,7 @@ export default function Users() {
     const [selectedUser, setSelectedUser] = useState<any>();
     const [usersList, setUsersList] = useState<UserWithoutPassword []>([])
     const { updateLoggedIn, authenticatedUser } = useAuth();
+    const [progress, setProgress] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -43,7 +45,8 @@ export default function Users() {
     }, [])
 
     const deleteUser = async (id: number) => {
-        
+
+        setProgress(true);
         const response = await fetch(`${API_URL}/admin/users/${id}`, {
                 method: 'DELETE',
                 headers: {
@@ -61,11 +64,13 @@ export default function Users() {
         
         else if (response.status === 403)
             updateLoggedIn(LoggedIn.FALSE);
-    
+
+        setProgress(false);
     }
 
     return (
         <>
+            {progress && <TopBarProgress />}
             <div className={style.container}>
                 <Header /> 
                 <section className={style.section}>

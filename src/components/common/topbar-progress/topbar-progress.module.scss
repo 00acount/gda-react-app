@@ -1,0 +1,19 @@
+.topBarProgress {
+    z-index: 9999;
+    position: absolute;
+    height: 3px;
+    background-image: linear-gradient(to right, $danger-color, $main-color, $success-color);
+    top: 0;
+    left: 0;
+    animation: topbar-progress 2s ease-out;
+}
+
+@keyframes topbar-progress {
+    0% {
+        width: 0%;
+    }
+    
+    100% {
+        width: 85%;
+    }
+}

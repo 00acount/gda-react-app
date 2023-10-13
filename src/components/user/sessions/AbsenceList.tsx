@@ -8,6 +8,7 @@ import { getToken } from '../../../utilities/authToken';
 import { useAuth } from '../../../utilities/Auth';
 import { LoggedIn } from '../../common/context-provider';
 import { AbsenceLoader } from './UserSessionLoader';
+import TopBarProgress from '../../common/topbar-progress/TopBarProgress';
 
 enum Status {
     PRESENT = 'PRESENT',
@@ -18,6 +19,7 @@ export default function AbsenceList( {setUpdateBtn, selectedSession }: any) {
     const [dataFetched, setDataFetched] = useState(false);
     const [absenceList, setAbsenceList] = useState<Absence []>([]);
     const [renderStatus, setRenderStatus] = useState(false);
+    const [progress, setProgress] = useState(false);
     const absenceListRef = useRef(absenceList);
     const { updateLoggedIn } = useAuth();
 
@@ -50,6 +52,7 @@ export default function AbsenceList( {setUpdateBtn, selectedSession }: any) {
     }
     
     const onClose = async () => {
+        setProgress(true)
         if (absenceListRef.current.length) {
                 const response = await fetch(`${API_URL}/user/users/${selectedSession.user.id}/sessions/${selectedSession.id}/absence`, {
                         method: 'PUT',
@@ -69,10 +72,12 @@ export default function AbsenceList( {setUpdateBtn, selectedSession }: any) {
             return; 
         }
         setUpdateBtn(false);
+        setProgress(false);
     }
     
     
     const exportPDF = async () => {
+        setProgress(true)
         const response = await fetch(`${API_URL}/user/users/${selectedSession.user.id}/sessions/${selectedSession.id}/absence/generatePDF`, {
             method: 'GET',
             headers: {
@@ -94,11 +99,13 @@ export default function AbsenceList( {setUpdateBtn, selectedSession }: any) {
         if (response.status === 403)
             updateLoggedIn(false);
 
+        setProgress(false);
     }
     
     return (
         <>
             <div className={style.container}>
+                {progress && <TopBarProgress/>}
                 {!dataFetched && <AbsenceLoader />}
                 {dataFetched && 
                 <div className={style.outerBox}>

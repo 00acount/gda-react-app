@@ -10,6 +10,7 @@ import { API_URL } from '../../../utilities/backend-api';
 import { useAuth } from '../../../utilities/Auth';
 import { getToken } from '../../../utilities/authToken';
 import { ModuleWrapperLoader } from './ModuleLoader';
+import TopBarProgress from '../../common/topbar-progress/TopBarProgress';
 
 export default function Modules() {
     const [dataFetched, setDataFetched] = useState(false)
@@ -17,6 +18,7 @@ export default function Modules() {
     const [updateBtn, setUpdateBtn] = useState(false);
     const [selectedModule, setSelectedModule] = useState<Module>();
     const [modulesList, setModulesList] = useState<Module []>([]);
+    const [progress, setProgress] = useState(false);
     const { updateLoggedIn } = useAuth();
     
     useEffect(() =>{
@@ -40,6 +42,7 @@ export default function Modules() {
     }, [])
     
     const deleteModule = async (id: number) => {
+        setProgress(true);
         const response = await fetch(`${API_URL}/admin/modules/${id}`, {
                 method: 'DELETE',
                 headers: {
@@ -56,9 +59,11 @@ export default function Modules() {
         if (response.status === 403)
             updateLoggedIn(false)
 
+        setProgress(false);
     }
     return (
         <>
+            {progress && <TopBarProgress/>}
             <div className={style.container}>
                 <Header /> 
                 <section className={style.section}>

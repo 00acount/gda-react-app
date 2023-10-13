@@ -11,6 +11,7 @@ import { useAuth } from '../../../utilities/Auth'
 import { getToken } from '../../../utilities/authToken'
 import { LoggedIn } from '../../common/context-provider'
 import { StudentWrapperLoader } from './StudentLoader'
+import TopBarProgress from '../../common/topbar-progress/TopBarProgress'
 
 export default function Students() {
     const [updateBtn, setUpdateBtn] = useState(false);
@@ -19,6 +20,7 @@ export default function Students() {
     const [studentsList, setStudentsList] = useState<Student []>([]);
     const [dataFetched, setDataFetched] = useState(false);
     const { updateLoggedIn } = useAuth();
+    const [progress, setProgress] = useState(false);
     
     useEffect(() => {
         (async () => {
@@ -44,6 +46,8 @@ export default function Students() {
     
     const deleteStudent = async (id: number) => {
 
+        setProgress(true);
+            {progress && <TopBarProgress/>}
         const response = await fetch(`${API_URL}/admin/students/${id}`, {
                 method: 'DELETE',
                 headers: {
@@ -60,10 +64,12 @@ export default function Students() {
         else if (response.status === 403)
             updateLoggedIn(LoggedIn.FALSE);
 
+        setProgress(false);
     }
 
     return (
         <>
+            {progress && <TopBarProgress />}
             <div className={style.container}>
                 <Header /> 
                 <section className={style.section}>

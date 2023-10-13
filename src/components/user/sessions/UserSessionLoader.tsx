@@ -1,5 +1,6 @@
 import style from './absences-list.module.scss'
 import  userSessionStyle from './user-sessions.module.scss'
+import addSessionStyle from './add-session.module.scss'
 
 export function AbsenceLoader() {
     return (
@@ -16,5 +17,11 @@ export function UserSessionLoader() {
 export function SessionHeading() {
     return (
         <div className={userSessionStyle.borderSkeleton}></div>
+    )
+}
+
+export function AddSessionLoader() {
+    return (
+        <div className={addSessionStyle.boxFormSkeleton}></div>
     )
 }

@@ -3,17 +3,19 @@ import logo from './../../../assets/images/logo.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBook, faDoorOpen, faGraduationCap, faSchool, faTableColumns, faTableList, faUser } from '@fortawesome/free-solid-svg-icons'
 import { Link, useLocation } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuth } from '../../../utilities/Auth'
 import { API_URL } from '../../../utilities/backend-api'
 import { getToken } from '../../../utilities/authToken'
 import { LoggedIn } from '../../common/context-provider'
+import TopBarProgress from '../../common/topbar-progress/TopBarProgress'
 
 export default function Sidebar() {
     const refs: (HTMLSpanElement | null)[] = [];
     const location = useLocation();
     const { authenticatedUser } = useAuth();
     const { updateLoggedIn } = useAuth();
+    const [progress, setProgress] = useState(false);
 
     useEffect(() => {
         switch(location.pathname)  {
@@ -57,7 +59,7 @@ export default function Sidebar() {
     }
 
     const logout = async () => {
-
+        setProgress(true);
         const response = await fetch(`${API_URL}/logout`, {
             method: 'POST',
             headers: {
@@ -69,10 +71,12 @@ export default function Sidebar() {
             updateLoggedIn(LoggedIn.FALSE);
         }
 
+        setProgress(false);
     }
 
     return (
         <>
+            {progress && <TopBarProgress/>}
             <aside className={style.sidebar}>
                 <div className={style.logo}>
                     <img src={logo} alt="" />

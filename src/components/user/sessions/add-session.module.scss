@@ -10,6 +10,7 @@
     z-index: 10;
 
     .boxForm {
+        height: 90%;
         position: absolute;
         transform: translate(-50%, -50%);
         top: 50%;
@@ -105,5 +106,13 @@
     }
     to {
         opacity: 1;
+    }
+}
+
+
+// loader style
+.container {
+    .boxFormSkeleton {
+        display: none;
     }
 }

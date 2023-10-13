@@ -11,6 +11,7 @@ import { getToken } from '../../../utilities/authToken'
 import { API_URL } from '../../../utilities/backend-api'
 import { LoggedIn } from '../../common/context-provider'
 import { SectorWrapperLoader } from './SectorLoader'
+import TopBarProgress from '../../common/topbar-progress/TopBarProgress'
 
 export default function Sectors() {
     const [dataFetched, SetDataFetched] = useState(false);
@@ -18,6 +19,7 @@ export default function Sectors() {
     const [addBtn, setAddBtn] = useState(false);
     const [selectedSector, setSelectedSector] = useState<Sector>();
     const [sectorsList, setSectorsList] = useState<Sector []>([]);
+    const [progress, setProgress] = useState(false);
     const { updateLoggedIn } = useAuth();
 
     useEffect(() => {
@@ -43,6 +45,7 @@ export default function Sectors() {
     }, [])
 
     const deleteSector = async (id: number) => {
+        setProgress(true);
         const response = await fetch(`${API_URL}/admin/sectors/${id}`, {
                 method: 'DELETE',
                 headers: {
@@ -58,11 +61,13 @@ export default function Sectors() {
 
         else if (response.status === 403)
             updateLoggedIn(LoggedIn.FALSE);
-
+        
+        setProgress(false);
     }
 
     return (
         <>
+            {progress && <TopBarProgress/>}
             <div className={style.container}>
                 <Header /> 
                 <section className={style.section}>
@@ -102,3 +107,7 @@ export default function Sectors() {
         </>
     )
 }
+    // const [progress, setProgress] = useState(false);
+    //     setProgress(true);
+    //     setProgress(false);
+    //         {progress && <TopBarProgress/>}
