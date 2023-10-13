@@ -13,6 +13,7 @@ import { getToken } from '../../../utilities/authToken';
 import { LoggedIn } from '../../common/context-provider';
 import { SessionHeading, UserSessionLoader } from './UserSessionLoader';
 import TopBarProgress from '../../common/topbar-progress/TopBarProgress';
+import { LogLoader } from '../../common/log-loader/LogLoader';
 
 export default function UserSessions() {
     const [dataFetched, setDataFetched] = useState(false);
@@ -21,6 +22,7 @@ export default function UserSessions() {
     const [updateBtn, setUpdateBtn] = useState(false) 
     const [selectedSession, setSelectedSession] = useState<Session>()
     const [progress, setProgress] = useState(false);
+    const [loggingProgress, setLoggingProgress] = useState(false);
     const { authenticatedUser, updateLoggedIn } = useAuth();
     
     useEffect(() => {
@@ -67,7 +69,7 @@ export default function UserSessions() {
     }
 
     const logout = async () => {
-        setProgress(true)
+        setLoggingProgress(true)
         const response = await fetch(`${API_URL}/logout`, {
             method: 'POST',
             headers: {
@@ -78,7 +80,6 @@ export default function UserSessions() {
         if (response.ok) 
             updateLoggedIn(LoggedIn.FALSE)
 
-        setProgress(false)
     }
 
     return (
@@ -86,7 +87,10 @@ export default function UserSessions() {
         {progress && <TopBarProgress />}
         <div className={style.fullContainer}>
             <button className={style.logout} onClick={logout}>
-                <FontAwesomeIcon className={style.icon} icon={faDoorOpen} />
+                <span>
+                    {!loggingProgress && <FontAwesomeIcon className={style.icon} icon={faDoorOpen} />}
+                    {loggingProgress && <LogLoader/>}
+                </span>
             </button>
             <div className={style.container}>
                 <header>

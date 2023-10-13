@@ -8,14 +8,14 @@ import { useAuth } from '../../../utilities/Auth'
 import { API_URL } from '../../../utilities/backend-api'
 import { getToken } from '../../../utilities/authToken'
 import { LoggedIn } from '../../common/context-provider'
-import TopBarProgress from '../../common/topbar-progress/TopBarProgress'
+import { LogLoader } from '../../common/log-loader/LogLoader'
 
 export default function Sidebar() {
     const refs: (HTMLSpanElement | null)[] = [];
     const location = useLocation();
     const { authenticatedUser } = useAuth();
     const { updateLoggedIn } = useAuth();
-    const [progress, setProgress] = useState(false);
+    const [loggingPogress, setLoggingProgress] = useState(false);
 
     useEffect(() => {
         switch(location.pathname)  {
@@ -59,7 +59,7 @@ export default function Sidebar() {
     }
 
     const logout = async () => {
-        setProgress(true);
+        setLoggingProgress(true);
         const response = await fetch(`${API_URL}/logout`, {
             method: 'POST',
             headers: {
@@ -70,13 +70,10 @@ export default function Sidebar() {
         if (response.ok) {
             updateLoggedIn(LoggedIn.FALSE);
         }
-
-        setProgress(false);
     }
 
     return (
         <>
-            {progress && <TopBarProgress/>}
             <aside className={style.sidebar}>
                 <div className={style.logo}>
                     <img src={logo} alt="" />
@@ -90,7 +87,10 @@ export default function Sidebar() {
                     <Link ref={e => refs.push(e)} onClick={e => changeMark(e)} to='/modules'><FontAwesomeIcon className={style.icon} icon={faSchool} />Modules</Link>
                     <Link ref={e => refs.push(e)} onClick={e => changeMark(e)} to='/sectors'><FontAwesomeIcon className={style.icon} icon={faTableList} />Sectors</Link>
                     <Link ref={e => refs.push(e)} onClick={e => changeMark(e)} to='/sessions'><FontAwesomeIcon className={style.icon} icon={faBook} />Sessions</Link>
-                    <button className={style.logout} onClick={logout}><FontAwesomeIcon className={style.icon} icon={faDoorOpen} />Logout</button>
+                    <span className={style.boxBtn}>
+                        {!loggingPogress && <button className={style.logout} onClick={logout}><FontAwesomeIcon className={style.icon} icon={faDoorOpen} />Logout</button>}
+                        {loggingPogress && <LogLoader logging='logout' />}
+                    </span>
                 </div>
             </aside>
         </>

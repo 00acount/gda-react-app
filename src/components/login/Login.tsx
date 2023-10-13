@@ -3,6 +3,8 @@ import style from './login.module.scss'
 import { useAuth } from '../../utilities/Auth'
 import { API_URL } from '../../utilities/backend-api'
 import { LoggedIn } from '../common/context-provider'
+import { LogLoader } from '../common/log-loader/LogLoader'
+import { useState } from 'react'
 
 type Login = {
     email: string
@@ -11,6 +13,7 @@ type Login = {
 
 export default function Login() {
     const { updateLoggedIn } = useAuth();
+    const [loggingProgress, setLoggingProgress] = useState(false);
     const {
         register,
         handleSubmit,
@@ -19,6 +22,7 @@ export default function Login() {
     
     const onSubmit:SubmitHandler<Login> = async (userInfo) => {
 
+        setLoggingProgress(true);
         const response = await fetch(`${API_URL}/login`, {
             method: "POST",
             headers: {
@@ -32,9 +36,6 @@ export default function Login() {
             localStorage.setItem('Authorization', token);
             updateLoggedIn(LoggedIn.TRUE);
         }
-    
-        console.log(LoggedIn)
-    
     }
     
     return (
@@ -52,8 +53,9 @@ export default function Login() {
                         {errors.password?.type == 'required' && <span className={style.fieldError}>Password is required</span>}
                         {errors.password?.type == 'minLength' && <span className={style.fieldError}>Must be consist of atleast 8 characters</span>}
                     </span>
-                    <span className={style.boxFields}>
-                        <input type='submit' value="Login" />
+                    <span className={style.boxBtn}>
+                        {!loggingProgress && <input type='submit' value="Login" />}
+                        {loggingProgress && <LogLoader />}
                     </span>
                 </form>
             </div>

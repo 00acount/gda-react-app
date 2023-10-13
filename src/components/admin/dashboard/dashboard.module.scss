@@ -98,12 +98,11 @@
         }
     
         .latestUsersSekeleton {
-                border-collapse: collapse;
-                
+                @include loadingStyle();
+
                 th, td {
                     @include loadingStyle();
                     height: 44px;
-                    border-radius: 0px;
                 }
         }
     }

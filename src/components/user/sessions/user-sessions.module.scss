@@ -2,17 +2,32 @@
     position: relative; 
     
     .logout {
+        width: 90px;
+        height: 90px;
         z-index: 3;
         position: absolute;
         top: 0;
         left: 0;
         color: white;
         border: none;
+        padding: 0;
         font-size: 2em;
         background-color: $main-color;
-        padding: 10px 30px 30px 10px;
         border-bottom-right-radius: 100%;
         cursor: pointer;
+        
+        span {
+            position: relative;
+            top: calc(80% - 90px) ;
+            left: calc(80% - 80px) ;
+            display: inline-block;
+            width: 80%;
+            height: 80%;
+        }
+        
+        .icon {
+            padding-top: 30px;
+        }
     }
     
     .container {
