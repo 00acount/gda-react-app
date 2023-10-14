@@ -18,13 +18,18 @@ export const getAuthenticatedUser = (isLoggedIn: LoggedIn) => {
     try {
         const decodedToken = atob(token?.split('.').at(1) ?? '');
         const jsonToken = JSON.parse(decodedToken);
-        userCredentials = JSON.parse(jsonToken.sub);
-    } catch (e) {}
 
-    if (isLoggedIn === LoggedIn.FALSE) {
+        if ((Date.now() / 1000 - jsonToken.exp > 0)
+             || (isLoggedIn === LoggedIn.FALSE))
+            throw new Error('token expired');
+
+        userCredentials = JSON.parse(jsonToken.sub);
+    } catch (e) {
         localStorage.removeItem('Authorization');
         userCredentials = {};
     }
+
+
 
     return userCredentials;
 }

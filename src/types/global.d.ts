@@ -1,30 +1,33 @@
-export interface Student {
-    id: number,
-    firstName: string,
-    lastName: string,
+export type Student = {
+    id: number
+    firstName: string
+    lastName: string
     apogeeCode: number
     birthDate: string
-    sector: Sector,
+    sector: Sector
     semester: string
 }
 
-export interface Student_SectorId {
-    id: number,
-    firstName: string,
-    lastName: string,
+export type Student_SectorId = {
+    id: number
+    firstName: string
+    lastName: string
     apogeeCode: number
     birthDate: string
-    sector: number,
+    sector: number
     semester: string
 }
 
-export interface Sector {
-    id: number,
-    abbr: string,
+export type Student_SectorId = Omit<Student, 'sector'> 
+                                    & { sector: number }
+
+export type Sector = {
+    id: number
+    abbr: string
     name: string
 }
 
-export interface UserWithoutPassword {
+export type User =  {
     id: number
     firstName: string
     lastName: string
@@ -32,13 +35,12 @@ export interface UserWithoutPassword {
     registeredOn: string
     lastSeen: Date
     role: string
-}
-
-export interface User extends UserWithoutPassword {
     password: string
 }
 
-export interface Module {
+export type UserWithoutPassword = Omit<User, 'password'>
+
+export type Module = {
     id: number
     name: string
     sectors: Sector []
@@ -46,7 +48,7 @@ export interface Module {
     
 }
 
-export interface Session {
+export type Session = {
     id: number
     user: UserWithoutPassword
     module: Module
@@ -56,7 +58,7 @@ export interface Session {
     createdAt: string
 }
 
-export interface Absence {
+export type Absence = {
     student: Student
     session: Session
     status: string
