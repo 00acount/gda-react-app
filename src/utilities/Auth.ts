@@ -29,7 +29,5 @@ export const getAuthenticatedUser = (isLoggedIn: LoggedIn) => {
         userCredentials = {};
     }
 
-
-
     return userCredentials;
 }

@@ -36,6 +36,7 @@ export type User =  {
     lastSeen: Date
     role: string
     password: string
+    isOnline: boolean
 }
 
 export type UserWithoutPassword = Omit<User, 'password'>

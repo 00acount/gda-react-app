@@ -49,7 +49,7 @@ export default function Login() {
                         {errors.email?.type == 'pattern' && <span className={style.fieldError}>The Email is not valid</span>}
                     </span>
                     <span className={style.boxFields}>
-                        <input className={style.inpt} placeholder='Password' id='password' {...register("password", {required: true, minLength: 8})} />
+                        <input type='password' className={style.inpt} placeholder='Password' id='password' {...register("password", {required: true, minLength: 8})} />
                         {errors.password?.type == 'required' && <span className={style.fieldError}>Password is required</span>}
                         {errors.password?.type == 'minLength' && <span className={style.fieldError}>Must be consist of atleast 8 characters</span>}
                     </span>

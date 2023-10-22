@@ -43,6 +43,7 @@ export default function Router() {
   return (
     <>
         {authenticatedUser?.role === Role.ADMIN && <RouterProvider router={adminRoutes} /> }
+        {(authenticatedUser?.role === Role.ADMIN || authenticatedUser?.role === Role.SUPER_ADMIN) && <RouterProvider router={adminRoutes} /> }
         {authenticatedUser?.role === Role.USER && <RouterProvider router={userRoutes} /> }
         {!authenticatedUser?.role && <RouterProvider router={loginRoutes} /> }
     </>

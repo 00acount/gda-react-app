@@ -14,7 +14,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         padding: 50px;
-        // backdrop-filter: blur(10px);
+        backdrop-filter: blur(5px);
 
         h1 {
             padding: 10px 0 40px;
@@ -55,6 +55,7 @@
         }
 
         .boxBtn {
+            box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.071);
             width: 350px;
             background-color: $main-color;
             border-radius: 5px 20px;
@@ -79,3 +80,31 @@
 }
 
 
+// For Mobile devices: 320px-480px
+// For Tablets or iPad: 480px - 768px
+// For Laptop or small-size screen: 768px -1024px
+// For Desktop or large-size screen: 1024px -1200px
+// For Extra-large size device: 1200px and more
+
+@media screen and (min-width: 320px) and (max-width: 480px) {
+    .container {
+        height: 100vh;
+        width: 100vw;
+        
+        .formBox {
+            width: 100%;
+            border-radius: 0px;
+            padding: 20px 0;
+            text-align: center;
+            
+            .boxFields {
+                width: 80%;
+                margin: 0 auto;
+            }
+            
+            .boxBtn {
+                width: 80%;
+            }
+        }
+    }
+}

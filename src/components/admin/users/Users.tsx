@@ -98,7 +98,7 @@ export default function Users() {
                                     <tr key={index}>
                                         <td><button onClick={() => {setSelectedUser(user); setUpdateBtn(true)}}><FontAwesomeIcon icon={faPencil} /></button></td>
                                         <td className={style.tdFirstName}>
-                                            {authenticatedUser.id === user.id && 
+                                            {user.isOnline === true && 
                                                 <span className={style.currentUser}>
                                                     <span className={style.ringring}></span>
                                                     <span className={style.circle}></span>
