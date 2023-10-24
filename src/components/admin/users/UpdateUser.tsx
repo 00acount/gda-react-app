@@ -18,6 +18,7 @@ type Props = {
 export default function UpdateUser({ setUpdateBtn, selectedUser, setUsersList }: Props) {
     const passRef = useRef<HTMLInputElement | null>(null);
     const [isPassActived, setIsPassActived] = useState(false);
+    const [isEmailAvailable, setIsEmailAvailable] = useState(true);
     const { updateLoggedIn } = useAuth();
     const {
         register,
@@ -29,8 +30,9 @@ export default function UpdateUser({ setUpdateBtn, selectedUser, setUsersList }:
     const onSubmit: SubmitHandler<User> = async (userInfo) => {
         let { password } = userInfo;
         password = password ? password: '$$_#@!#@';
-        userInfo = {...userInfo, password}
-
+        userInfo = {...userInfo, password, role: selectedUser?.role}
+        
+        console.log(userInfo)
         const response = await fetch(`${API_URL}/admin/users/${selectedUser.id}`, {
             method: 'PUT',
             headers: {
@@ -53,6 +55,9 @@ export default function UpdateUser({ setUpdateBtn, selectedUser, setUsersList }:
         else if (response.status === 403)
             updateLoggedIn(LoggedIn.FALSE);
 
+        else if (response.status === 409) {
+            setIsEmailAvailable(false)
+        }
     }
 
     const disavtivePassword = (e: React.MouseEvent<HTMLSpanElement>) => {
@@ -96,6 +101,7 @@ export default function UpdateUser({ setUpdateBtn, selectedUser, setUsersList }:
                             <input className={style.inpt} defaultValue={selectedUser.email} id='email' {...register("email", {required: true, pattern: /^[A-Za-z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$$/})} />
                             {errors.email?.type == 'required' && <span className={style.fieldError}>Email is required</span>}
                             {errors.email?.type == 'pattern' && <span className={style.fieldError}>The Email is not valid</span>}
+                            {!isEmailAvailable && <span className={style.fieldError}>This Email isn't available</span>}
                         </span>
                         
                         <span className={style.boxFields}>
@@ -118,14 +124,7 @@ export default function UpdateUser({ setUpdateBtn, selectedUser, setUsersList }:
                         
                         <span className={style.boxFields}>
                             <label htmlFor='role'>Role</label>
-                            <select id="role" defaultValue={selectedUser.role} {...register('role')}>
-                                <option value="" disabled>
-                                    Please select one option
-                                </option>
-                                {roles.map((role, index) =>
-                                    <option key={index} value={role}>{role}</option> 
-                                )}
-                            </select>
+                            <span>{selectedUser.role}</span>
                         </span>
                         
                         <span className={style.boxBtn}>

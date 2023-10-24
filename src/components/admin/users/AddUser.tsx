@@ -1,14 +1,16 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
 import style from './add-update-user.module.scss'
 import { User, UserWithoutPassword } from '../../../types/global';
-import { roles } from '../../../utilities/roles';
+import { Role, roles } from '../../../utilities/roles';
 import { API_URL } from '../../../utilities/backend-api';
 import { getToken } from '../../../utilities/authToken';
 import { useAuth } from '../../../utilities/Auth';
 import { LoggedIn } from '../../common/context-provider';
+import { useState } from 'react';
 
 export default function AddUser({ setAddBtn, setUsersList }: any) {
-    const { updateLoggedIn } = useAuth();
+    const { updateLoggedIn, authenticatedUser } = useAuth();
+    const [isEmailAvailable, setIsEmailAvailable] = useState(true);
     const {
         register,
         handleSubmit,
@@ -16,6 +18,8 @@ export default function AddUser({ setAddBtn, setUsersList }: any) {
     } = useForm<User>()
 
     const onSubmit: SubmitHandler<User> = async (userInfo) => {
+
+        userInfo.role = userInfo.role || Role.USER
 
         const response = await fetch(`${API_URL}/admin/users`, {
             method: 'POST',
@@ -35,8 +39,16 @@ export default function AddUser({ setAddBtn, setUsersList }: any) {
             setAddBtn(false)
         }
     
-        else if (response.status === 403)
+        else if (response.status === 403) {
+            console.log(response.status)
             updateLoggedIn(LoggedIn.FALSE);
+        }
+    
+        else if (response.status === 409) {
+            setIsEmailAvailable(false)
+        }
+    
+
     }
 
     return (
@@ -63,6 +75,7 @@ export default function AddUser({ setAddBtn, setUsersList }: any) {
                             <input className={style.inpt} id='email' {...register("email", {required: true, pattern: /^[A-Za-z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$$/})} />
                             {errors.email?.type == 'required' && <span className={style.fieldError}>Email is required</span>}
                             {errors.email?.type == 'pattern' && <span className={style.fieldError}>The Email is not valid</span>}
+                            {!isEmailAvailable && <span className={style.fieldError}>This Email isn't available</span>}
                         </span>
                         
                         <span className={style.boxFields}>
@@ -74,14 +87,16 @@ export default function AddUser({ setAddBtn, setUsersList }: any) {
                         
                         <span className={style.boxFields}>
                             <label htmlFor='role'>Role</label>
-                            <select id="role" {...register('role')}>
-                                <option value="" disabled>
-                                    Please select one option
-                                </option>
-                                {roles.map((role, index) =>
-                                    <option key={index} value={role}>{role}</option> 
-                                )}
-                            </select>
+                            {(authenticatedUser?.role === Role.SUPER_ADMIN &&
+                                <select id="role" {...register('role')}>
+                                    <option value="" disabled>
+                                        Please select one option
+                                    </option>
+                                    {roles.map((role, index) =>
+                                        <option key={index} value={role}>{role}</option> 
+                                    )}
+                                </select>
+                            ) || <span>{Role.USER}</span> }
                         </span>
                         
                         <span className={style.boxBtn}>

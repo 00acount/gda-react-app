@@ -14,6 +14,7 @@ type Login = {
 export default function Login() {
     const { updateLoggedIn } = useAuth();
     const [loggingProgress, setLoggingProgress] = useState(false);
+    const [isInvalid, setIsInvalid] = useState(false);
     const {
         register,
         handleSubmit,
@@ -36,6 +37,11 @@ export default function Login() {
             localStorage.setItem('Authorization', token);
             updateLoggedIn(LoggedIn.TRUE);
         }
+        
+        if (response.status === 403) {
+            setIsInvalid(true);
+            setLoggingProgress(false);
+        }
     }
     
     return (
@@ -53,6 +59,7 @@ export default function Login() {
                         {errors.password?.type == 'required' && <span className={style.fieldError}>Password is required</span>}
                         {errors.password?.type == 'minLength' && <span className={style.fieldError}>Must be consist of atleast 8 characters</span>}
                     </span>
+                    {isInvalid && <span className={style.invalid}>Email Or/And Password Invalid</span>}
                     <span className={style.boxBtn}>
                         {!loggingProgress && <input type='submit' value="Login" />}
                         {loggingProgress && <LogLoader />}
