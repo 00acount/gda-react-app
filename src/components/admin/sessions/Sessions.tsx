@@ -55,12 +55,12 @@ export default function Sessions() {
             anchor.href = url
             anchor.download = `session_${session.createdAt}.pdf`
             anchor.click()
+            setProgress(false);
         }
 
         if (response.status === 403)
             updateLoggedIn(LoggedIn.FALSE)
         
-        setProgress(false);
     }
 
     return (

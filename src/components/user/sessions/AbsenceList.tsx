@@ -94,12 +94,12 @@ export default function AbsenceList( {setUpdateBtn, selectedSession }: any) {
             anchor.href = url
             anchor.download = `session_${selectedSession.createdAt}.pdf`
             anchor.click()
+            setProgress(false);
         }
 
         if (response.status === 403)
             updateLoggedIn(false);
 
-        setProgress(false);
     }
     
     return (

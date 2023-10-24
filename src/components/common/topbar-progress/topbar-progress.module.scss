@@ -2,6 +2,7 @@
     z-index: 9999;
     position: absolute;
     height: 3px;
+    width: 85%;
     background-image: linear-gradient(to right, $danger-color, $main-color, $success-color);
     top: 0;
     left: 0;
