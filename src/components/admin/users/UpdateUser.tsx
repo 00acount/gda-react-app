@@ -1,7 +1,6 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
 import style from './add-update-user.module.scss'
 import { User, UserWithoutPassword } from '../../../types/global';
-import { roles } from '../../../utilities/roles';
 import { useRef, useState } from 'react';
 import { API_URL } from '../../../utilities/backend-api';
 import { getToken } from '../../../utilities/authToken';
